@@ -5,11 +5,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Linha (
-    val cl: Long?,
+    val cl: Int?,
     val lc: Boolean?,
     val lt: String?,
-    val sl: Long?,
-    val tl: Long?,
+    val sl: Int?,
+    val tl: Int?,
     val tp: String?,
     val ts: String?
 ):Parcelable

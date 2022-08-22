@@ -1,20 +1,26 @@
 package me.dio.busca.dados.ui.map
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import me.dio.busca.MainActivity
 import me.dio.busca.R
 import me.dio.busca.dados.Parada
-import me.dio.busca.dados.Post
 import me.dio.busca.dados.V
 import me.dio.busca.dados.Veiculo
+import me.dio.busca.dados.VeiculoLinha
+import me.dio.busca.dados.servicos.AppDatabase
 import me.dio.busca.databinding.ActivityMapsBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -22,20 +28,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     lateinit var posi : ArrayList<Parada>
-    lateinit var veiculo : ArrayList<Veiculo>
-    lateinit var veiculos : ArrayList<V>
+    lateinit var veiculo : List<Veiculo>
+    lateinit var veiculoLinha : List<V>
+    lateinit var maps : GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        posi= intent.getParcelableArrayListExtra("parada")!!
-   //     veiculo = intent.getParcelableExtra("veiculo")!!
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+
+
+
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync(this@MapsActivity)
+
+        val codigo = intent.getIntExtra("codigo",0)
+        when(codigo){
+            0->{
+                val novaintent = Intent(this,MainActivity::class.java)
+                startActivity(novaintent)
+            }
+            1->{ posi = intent.getParcelableArrayListExtra("paradaportermo")!!
+            }
+            2->{ veiculoLinha = intent.getParcelableArrayListExtra("veiculolinha")!!
+            }
+            4->CoroutineScope(Dispatchers.IO).launch {
+                val db = Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java, "veiculo"
+                ).build()
+                val veiculoDao = db.veiculoDao()
+                val veiculosmono  = veiculoDao.carregaVeiculo()
+                veiculo=veiculosmono
+            }
+        }
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
     }
 
     /**
@@ -50,43 +83,70 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+
+        mMap.setMinZoomPreference(15.0f)
         // Add a marker in Sydney and move the camera
-        if(posi!= null)
+        // Add a marker in Sydney and move the camera
+        // Add a marker in Sydney and move the camera
+        // Add a marker in Sydney and move the camera
+
         if(::posi.isInitialized) {
-            posi.filter {
-                it.cp!= null
-            }.forEach {
-                mMap.addMarker((MarkerOptions().position(LatLng(it.py,it.px)).title(it.np)))
+            if(posi.size !=0) {
+                posi.filter {
+                    it.cp != null
+                }.forEach {
+                    mMap.addMarker((MarkerOptions().position(LatLng(it.py, it.px)).title(it.np)))
+                }
+                mMap.moveCamera(
+                    CameraUpdateFactory.newLatLng(
+                        LatLng(
+                            posi.get(0).py,
+                            posi.get(0).px
+                        )
+                    )
+                )
+
+            }else{
+                Toast.makeText(this@MapsActivity,"nenhuma parada encontrada",Toast.LENGTH_SHORT).show()
             }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(posi.get(0).py,posi.get(0).px)))
-            mMap.setMinZoomPreference(15.0f)
         }
 
-       /*
-        if(veiculo!= null){
+        if(::veiculoLinha.isInitialized){
+            if(veiculoLinha.size !=0){
+                val filtado = veiculoLinha.filter {
+                    true
+                }
+                filtado.forEach {
+
+                        mMap.addMarker(
+                            (MarkerOptions().position(LatLng(it.py, it.px))
+                                .title("posição do veiculo"))
+                        )
+
+                }
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(filtado.get(0).py,filtado.get(0).px)))
+
+            }else{
+                Toast.makeText(this@MapsActivity,"nenhuma parada encontrada",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
             if(::veiculo.isInitialized){
-                veiculo.filter {
-                    it.hr!= null
-                }.forEach {
-                    it.l.forEach {
-                        it.getVs().forEach {
-                            mMap.addMarker((MarkerOptions().position(LatLng(it.py,it.px)).title(it.p.toString())))
-                        }
+                if(veiculo.size !=0){
+                    val filtado = veiculo!!.filter {
+                        it.indo != null
                     }
-                }
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(posi.get(0).py,posi.get(0).px)))
-            }
-        }
+               filtado.forEach {
 
-        if(veiculos!= null)
-            if(::veiculos.isInitialized) {
-                veiculos.filter {
-                    it.a!= null
-                }.forEach {
-                    mMap.addMarker((MarkerOptions().position(LatLng(it.py,it.px)).title(it.p.toString())))
+                    mMap.addMarker((MarkerOptions().position(LatLng(it.py,it.px)).title(it.vindo+"para"+ it.indo)))
                 }
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(posi.get(0).py,posi.get(0).px)))
-            }*/
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(filtado.get(0).py,filtado.get(0).px)))
+
+            }else{
+                    Toast.makeText(this@MapsActivity,"nenhuma parada encontrada",Toast.LENGTH_SHORT).show()
+                }
+        }
 
     }
 }

@@ -3,10 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BUSca/BUSca/app/src/main/res/layout/card_hora.xml" value="0.25416666666666665" />
         <entry key="..\:/BUSca/app/src/main/res/layout/activity_detail_linha.xml" value="0.152" />
         <entry key="..\:/BUSca/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/BUSca/app/src/main/res/layout/card_linha.xml" value="0.4" />
         <entry key="..\:/BUSca/app/src/main/res/layout/content_map.xml" value="0.152" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/activity_detail_linha.xml" value="0.21150097465886938" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/activity_detail_previcao_de_chegada.xml" value="0.2825520833333333" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/activity_maps.xml" value="0.146875" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/card_hora.xml" value="0.4" />
+        <entry key="..\:/PROJETO ESTAGIO/BUSca/app/src/main/res/layout/card_linha.xml" value="0.1" />
       </map>
     </option>
   </component>

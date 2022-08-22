@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:padding="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_letreiro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:text="Letreiro"
+            app:layout_constraintBottom_toTopOf="@+id/tv_letreiro_do_onibus"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_letreiro_do_onibus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="codigodo letiro"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/gl1"
+            app:layout_constraintStart_toStartOf="@id/tv_letreiro" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rg_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:foregroundGravity="center_horizontal"
+            app:layout_constraintEnd_toStartOf="@id/gl2"
+            app:layout_constraintStart_toEndOf="@id/gl1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_vinda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="valor"
+                app:layout_constraintBottom_toBottomOf="@+id/x"
+                app:layout_constraintEnd_toStartOf="@id/x"
+                app:layout_constraintStart_toStartOf="@id/rg_info"
+                app:layout_constraintTop_toTopOf="@+id/x" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/x"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:text="X"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_ida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:hint="valor2"
+                app:layout_constraintBottom_toBottomOf="@+id/x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/x"
+                app:layout_constraintTop_toTopOf="@id/x" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/hora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Horario Previsto"
+            app:layout_constraintEnd_toEndOf="@+id/rg_info"
+            app:layout_constraintStart_toStartOf="@+id/rg_info"
+            app:layout_constraintTop_toBottomOf="@id/rg_info" />
+        <TextView
+            android:id="@+id/tv_horarioprevisto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/hora"
+            app:layout_constraintStart_toStartOf="@id/hora"
+            app:layout_constraintEnd_toEndOf="@id/hora"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_parada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parada:"
+
+            app:layout_constraintStart_toStartOf="@+id/gl2"
+            app:layout_constraintBottom_toTopOf="@id/tv_nome_da_parada"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_nome_da_parada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+
+            app:layout_constraintStart_toEndOf="@+id/gl2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.30" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -13,6 +13,7 @@ import me.dio.busca.dados.servicos.EndPoint
 import me.dio.busca.dados.servicos.Network
 import me.dio.busca.dados.ui.buscas.BuscaLinha
 import me.dio.busca.dados.ui.buscas.BuscaParada
+import me.dio.busca.dados.ui.buscas.BuscaTempoPorParada
 import me.dio.busca.dados.ui.buscas.BuscaVeiculo
 import me.dio.busca.dados.ui.map.MapsActivity
 import me.dio.busca.databinding.ActivityMainBinding
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         BuscaParada.setContext(this)
         BuscaLinha.setContext(this)
         BuscaVeiculo.setContext(this)
+        BuscaTempoPorParada.setContext(this)
         service = retrofite.service()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -56,16 +58,25 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun click( ) {
+
         binding.chip1.setOnClickListener {
+            garanteInvi()
             binding.rgParada.isVisible= true
+            posibilidade1()
+        }
+        binding.chip2.setOnClickListener {
+            garanteInvi()
+            orientacao = 7
             posibilidade1()
         }
 
         binding.chip3.setOnClickListener {
+            garanteInvi()
             orientacao = 4
             posibilidade1()
         }
         binding.chip4.setOnClickListener {
+            garanteInvi()
             binding.rgVeiculo.isVisible=true
             posibilidade1()
         }
@@ -76,8 +87,9 @@ class MainActivity : AppCompatActivity() {
                 2-> BuscaParada.buscaParadaPorCorredor(binding.entrada1.getText().toString().toInt(),service)
                 3-> BuscaParada.buscaParadaPorLinha(binding.entrada1.getText().toString().toInt(),service)
                 4-> BuscaLinha.buscaLinhaPorCodigo(binding.entrada1.getText().toString(),service)
-                5-> BuscaVeiculo.buscaTodosOsVeiculo(service)
-                6-> BuscaVeiculo.buscaVeiculoPorLinha(binding.entrada1.getText().toString().toInt(),service)
+                5-> CoroutineScope(Dispatchers.IO).launch{  BuscaVeiculo.buscaTodosOsVeiculo(service)}
+                6-> CoroutineScope(Dispatchers.IO).launch{  BuscaVeiculo.buscaVeiculoPorLinha(binding.entrada1.getText().toString().toInt(),service)}
+                7-> BuscaTempoPorParada.buscaHoraDeChegada(binding.entrada1.getText().toString().toInt(), service)
             }
             garanteInvi()
         }
@@ -125,6 +137,8 @@ class MainActivity : AppCompatActivity() {
         binding.entrada1.isVisible=false
         binding.entrada2.isVisible=false
         binding.btnConfirm.isVisible=false
+        binding.rgParada.clearCheck()
+        binding.rgVeiculo.clearCheck()
     }
 
 }

@@ -2,6 +2,7 @@ package me.dio.busca.dados.servicos
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.android.parcel.Parcelize
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,8 +12,6 @@ import java.util.concurrent.TimeUnit
 class Network {
 
     companion object {
-
-        val intercepitador = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
         fun client(): OkHttpClient =
             OkHttpClient.Builder()

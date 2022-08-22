@@ -1,9 +1,7 @@
 package me.dio.busca.dados.servicos
 
 import android.net.Uri
-import me.dio.busca.dados.Linha
-import me.dio.busca.dados.Parada
-import me.dio.busca.dados.Veiculo
+import me.dio.busca.dados.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -27,15 +25,18 @@ interface EndPoint {
     @GET("Parada/BuscarParadasPorLinha")
     fun getParadaPorLinha(@Query ("codigoLinha")termos: Int): Call<ArrayList<Parada>>
 
-    @Headers("Cache-Control: max-age=640000")
-    @GET("Parada/Buscar")
+    @Headers("Cache-Control: max-age=15724800")
+    @GET("Linha/Buscar")
     fun getLinhaPorCodigo(@Query ("termosBusca")termos:String): Call<ArrayList<Linha>>
 
     @Headers("Cache-Control: max-age=640000")
     @GET("/Posicao")
-    fun getTodosOsVeiculos(): Call<Veiculo>
+    fun getTodosOsVeiculos(): Call<Veiculos>
 
     @Headers("Cache-Control: max-age=640000")
     @GET("/Posicao/Linha")
-    fun getVeiculoPorLinha(@Query ("codigoLinha") valor: Int): Call<Veiculo>
+    fun getVeiculoPorLinha(@Query ("codigoLinha") valor: Int): Call<VeiculoLinha>
+
+    @GET("/Previsao/Parada")
+    fun getHorariodeChegadaPorParada(@Query ("codigoParada") valor: Int): Call<VeiculoHora>
 }
