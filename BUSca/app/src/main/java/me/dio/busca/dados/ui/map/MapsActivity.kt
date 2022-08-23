@@ -22,6 +22,8 @@ import me.dio.busca.dados.Veiculo
 import me.dio.busca.dados.VeiculoLinha
 import me.dio.busca.dados.servicos.AppDatabase
 import me.dio.busca.databinding.ActivityMapsBinding
+import okhttp3.internal.wait
+import java.util.concurrent.TimeUnit
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -31,6 +33,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var veiculo : List<Veiculo>
     lateinit var veiculoLinha : List<V>
     lateinit var maps : GoogleMap
+    var iniciaBusca = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,24 +50,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this@MapsActivity)
 
         val codigo = intent.getIntExtra("codigo",0)
-        when(codigo){
-            0->{
-                val novaintent = Intent(this,MainActivity::class.java)
-                startActivity(novaintent)
+
+            when (codigo) {
+                1 -> {
+                    posi = intent.getParcelableArrayListExtra("paradaportermo")!!
+                }
+                2 -> {
+                    veiculoLinha = intent.getParcelableArrayListExtra("veiculolinha")!!
+                }
+                4 -> iniciaBusca = true
             }
-            1->{ posi = intent.getParcelableArrayListExtra("paradaportermo")!!
-            }
-            2->{ veiculoLinha = intent.getParcelableArrayListExtra("veiculolinha")!!
-            }
-            4->CoroutineScope(Dispatchers.IO).launch {
+
+        CoroutineScope(Dispatchers.IO).launch {
+        if(iniciaBusca) {
+
                 val db = Room.databaseBuilder(
                     applicationContext,
                     AppDatabase::class.java, "veiculo"
                 ).build()
                 val veiculoDao = db.veiculoDao()
-                val veiculosmono  = veiculoDao.carregaVeiculo()
-                veiculo=veiculosmono
+                val veiculosmono = veiculoDao.carregaVeiculo()
+                veiculo = veiculosmono
             }
+            iniciaBusca=false
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -83,7 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-
+        TimeUnit.SECONDS.sleep(2)
         mMap.setMinZoomPreference(15.0f)
         // Add a marker in Sydney and move the camera
         // Add a marker in Sydney and move the camera
@@ -147,6 +155,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     Toast.makeText(this@MapsActivity,"nenhuma parada encontrada",Toast.LENGTH_SHORT).show()
                 }
         }
+
 
     }
 }
